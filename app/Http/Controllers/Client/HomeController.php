@@ -22,12 +22,13 @@ class HomeController extends Controller
 
     public function detail(string $slug)
     {
-        $product = Product::where('slug', $slug)->first();
-        $galleries = $product->galleries->toArray();
+        $product = Product::where('slug', $slug)->with('variants.size')->first();
+        $galleries = $product->galleries;
         
-        $sizes = $product->variants();
+     
         // dd($sizes);
-        return view('client.detail', compact('product', 'galleries', 'sizes'));
+        // dd($sizes);
+        return view('client.detail', compact('product', 'galleries'));
     }
 
     public function showCategory(string $id){

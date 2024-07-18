@@ -70,10 +70,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($variants->toArray() != [])
-                            @foreach ($variants as $variant)
+                           
+                            @if ($product->variants != [])
+                            @foreach ($product->variants as $variant)
                             <tr>
-                                <td>{{ $variant->size()->first()->name }}</td>
+                                <td>{{ $variant->size->name }}</td>
                                 <td>{{ $variant->quantity }}</td>
                             </tr>
                             @endforeach

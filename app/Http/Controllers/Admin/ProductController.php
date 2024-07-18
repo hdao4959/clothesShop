@@ -151,7 +151,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product = Product::find($product->id);
+        $product = Product::with('variants.size')->find($product->id);
         $galleries = $product->galleries()->get();
         $tags = $product->tags()->get();
         $variants = $product->variants()->get();
@@ -163,7 +163,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $product = Product::find($product->id);
+        $product = Product::where('id', $product->id)->with('category')->first();
         $tags = Tag::all();
         $product_tags = $product->tags()->pluck('id')->toArray();
         $product_galleries = $product->galleries()->pluck('id', 'product_id');

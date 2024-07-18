@@ -44,6 +44,10 @@ class Product extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function sizes(){
+        return $this->hasMany(Size::class);
+    }
+
     public function variants(){
         return $this->hasMany(ProductVariant::class);
     }

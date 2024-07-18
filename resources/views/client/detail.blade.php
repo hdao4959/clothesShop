@@ -36,10 +36,11 @@
                 <input type="hidden" value="{{ $product->id }}" name="product_id">
                 <div class="d-flex mt-2 mb-2" style="width:100px">
                     <label for="size">Size: </label>
+                    
                     @foreach ($product->variants as $item)
                         <input required  style="margin-left:10px" type="radio" name="size"
                             id="" value="{{ $item->size->id }}">
-                        {{ $item->size->name }}
+                            {{ $item->size->name }}
                     @endforeach
                 </div>
                 <div class="d-flex mt-2 mb-2"> 
