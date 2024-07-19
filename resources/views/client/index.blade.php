@@ -1,4 +1,7 @@
 @extends('client.layout.layout-client')
+@section('title')
+    Trang chủ
+@endsection
 @section('scripts')
     <style>
         .card {
@@ -29,36 +32,68 @@
 @endsection
 @section('content')
     <div>
-        <h1 class="my-3">Sản phẩm mới</h1>
+        <h1 class="text-center text-info">Sản phẩm mới</h1>
         <div class="row">
-            @php
-                function formatPrice($price){
-                    return str_replace(",", ".", number_format($price));
-                }
-            @endphp
-            @foreach ($products as $item)
+
+            @foreach ($newProducts as $item)
                 <div class="col-md-3">
                     <div class="card mt-2 shadow-sm">
                         <div class="position-relative">
                             @if ($item->is_new)
-                            <span class="badge bg-danger position-absolute mt-2">New</span>
+                                <span class="badge bg-info position-absolute mt-2">New</span>
                             @endif
                             <img src="{{ filter_var($item->img_thumbnail, FILTER_VALIDATE_URL) ? $item->img_thumbnail : Storage::url($item->img_thumbnail) }}"
                                 class="card-img-top" alt="{{ $item->name }}">
                         </div>
                         <div class="card-body">
                             <h1 class="card-title">{{ $item->name }}</h1>
-                            <p class="card-text">Giá: <s class="text-secondary">{{ formatPrice($item->price_regular) }}đ</s> <strong class="text-danger">{{ formatPrice($item->price_sale) }}đ</strong></p>
-                            <div>
-                                <a href="{{ route('product.detail', $item->slug) }}" class="btn btn-primary btn-sm">Chi
-                                    tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+                            <p class="card-text">Giá:
+                                 @if ($item->price_sale)
+                                    <s class="text-secondary">{{ number_format($item->price_regular) }}đ</s> <strong
+                                        class="text-danger">{{ number_format($item->price_sale) }}đ</strong>
+                                     @else
+                                    <strong class="text-danger">{{ number_format($item->price_regular) }}đ</strong></p>
+                                    @endif
+            <div>
+                <a href="{{ route('product.detail', $item->slug) }}" class="btn btn-primary btn-sm">Chi
+                    tiết</a>
+            </div>
         </div>
     </div>
+    </div>
+    @endforeach
+    </div>
+    {{ $newProducts->links() }}
+    <h1 class="my-3 text-center text-danger">Hot Deal</h1>
+    <div class="row">
+
+        @foreach ($hotDealProducts as $item)
+            <div class="col-md-3">
+                <div class="card mt-2 shadow-sm">
+                    <div class="position-relative">
+                        <span class="badge bg-danger position-absolute mt-2">Hot deal</span>
+                        <img src="{{ filter_var($item->img_thumbnail, FILTER_VALIDATE_URL) ? $item->img_thumbnail : Storage::url($item->img_thumbnail) }}"
+                            class="card-img-top" alt="{{ $item->name }}">
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title">{{ $item->name }}</h1>
+                        <p class="card-text">Giá: @if ($item->price_sale)
+                                <s class="text-secondary">{{ number_format($item->price_regular) }}đ</s> <strong
+                                    class="text-danger">{{ number_format($item->price_sale) }}đ</strong></p>
+                    @else
+                        <strong class="text-danger">{{ number_format($item->price_regular) }}đ</strong></p>
+        @endif
+        </p>
+        <div>
+            <a href="{{ route('product.detail', $item->slug) }}" class="btn btn-primary btn-sm">Chi
+                tiết</a>
+        </div>
+    </div>
+    </div>
+    </div>
+    @endforeach
+    </div>
+    {{ $hotDealProducts->links() }}
+
+    </div>
 @endsection
-
-

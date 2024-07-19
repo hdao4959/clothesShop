@@ -24,8 +24,11 @@ class OrderController extends Controller
         return view('admin.orders.detail', compact('order', 'orderItems'));
     }
 
-    public function orderUpdate(){
-        dd("àasfsa");
+    public function orderUpdate(Request $request, string $id){
+        $order = Order::findOrFail($id);
+        $order->status_order = $request->status_order;
+        $order->save();
+        return redirect()->route('admin.order.detail', ['id' => $id])->with('success', 'Cập nhật trạng thái đơn hàng thành công');
     }
 
    

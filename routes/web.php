@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Client\OrderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,23 +19,37 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Auth::routes();
 
 Route::middleware('isUser')->group(function(){
+    // Trang chủ
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    // Route::get('/', [HomeController::class, 'index'])->name('home');
+    // Trang chi tiết sản phẩm
     Route::prefix('/product')->as('product.')->group(function () {
         Route::get('/detail/{id}', [HomeController::class, 'detail'])->name('detail');
     });
-    
+
+    // Danh mục
     Route::get('/category/{id}', [HomeController::class, 'showCategory'])->name('showCategory');
+    // Giỏ hàng
     Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
-    Route::get("/form_order", [CartController::class, 'showFormOrder'])->name("form_order");
     Route::post('addCart', [CartController::class, 'addCart'])->name('addCart');
-    
-    // Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+    // Xoá item trong giỏ hàng
     Route::delete('/cart/{id}', [CartController::class, 'removeItem'])->name('cart.remove');
-    
+    // Thanh toán
+    Route::get("/form_order", [CartController::class, 'showFormOrder'])->name("form_order");
     Route::post('add_order', [OrderController::class, 'addOrder'])->name('add_order');
+
+    //Trang thông tin tài khoản
+    Route::get("orders",[HomeController::class, 'account'])->name('client.orders')->middleware('auth');
+    Route::get("orderDetail/{id}",[HomeController::class, 'orderDetail'])->name('client.orderDetail')->middleware('auth');
+    Route::post("orderCanceled/{id}",[OrderController::class, 'orderCanceled'])->name('client.orderCanceled')->middleware('auth');
+
+    
 });
+
+Auth::routes();
+
+    Route::get("/loggin", function(){
+        return view('login-register.login');
+    });

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
-    <title>Document</title>
+    <title>@yield('title')</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 
@@ -73,11 +73,13 @@
                             <a class="nav-link" href="{{ route('cart') }}">Giỏ Hàng</a>
                         </li>
                     </ul>
+                    @if (Auth::check())
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Tài Khoản</a>
+                            <a class="nav-link" href="{{ route('client.orders') }}">Đơn hàng</a>
                         </li>
                     </ul>
+                    @endif
                 </div>
                 <ul class="navbar-nav ms-auto">
                     <!-- Authentication Links -->
@@ -120,7 +122,7 @@
             @yield('content')
         </article>
 
-        <footer class="bg-dark-subtle mt-2 h-25 align-content-center">
+        <footer class="bg-dark-subtle mt-5 h-25 align-content-center">
             <h3 class="text-center text-light ">HairClothes</h3>
         </footer>
     </div>

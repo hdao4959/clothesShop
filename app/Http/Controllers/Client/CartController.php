@@ -62,44 +62,10 @@ class CartController extends Controller
 
     public function showFormOrder(Request $request)
     {
-        $products = Product::limit(2)->get();
+        $cart = session('cart');
 
-        return view('client.form-order', compact('products'));
-    }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('client.form-order', compact('cart'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
-    }
 }

@@ -1,13 +1,9 @@
 @extends('admin.layout')
-
+@section('title')
+    Danh sách đơn hàng
+@endsection
 @section('content')
-    <h1>Danh sách đơn hàng</h1>
 
-
-
-    @php
-     
-    @endphp
     <table class="table">
         <thead>
             <tr>

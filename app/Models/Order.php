@@ -15,8 +15,11 @@ class Order extends Model
     const STATUS_ORDER_PREPARING_GOODS = "Đang chuẩn bị hàng";
     const STATUS_ORDER_SHIPPING = "Đang vận chuyển";
     const STATUS_ORDER_DELIVERED = "Giao hàng thành công";
+    const STATUS_ORDER_CANCELED = "Đã huỷ đơn";
 
     protected $fillable = [
+        'order_code',
+        'user_id',
         'name',
         'address',
         'phone_number',
@@ -28,5 +31,8 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
 }

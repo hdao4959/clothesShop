@@ -3,12 +3,12 @@
     Danh sách danh mục
 @endsection
 @section('content')
-    <a class="btn btn-success" href="{{ route('admin.categories.create') }}">Thêm mới</a>
+    <a class="btn btn-success" href="{{ route('admin.categories.create') }}">Thêm mới</a><br>
     @if (session('error'))
-        <span class="text-danger">{{ session('error') }}</span>
-    @endif
+        <div class="alert alert-danger" role="alert">{{ session('error') }}</d>
+    @endif <br>
     @if (session('success'))
-        <span class="text-success">{{ session('success') }}</span>
+        <div  class="alert alert-success" role="alert">{{ session('success') }}</div>
     @endif
     <table class="table">
         <thead>

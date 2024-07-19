@@ -1,4 +1,7 @@
 @extends('client.layout.layout-client')
+@section('title')
+    Danh mục 
+@endsection
 @section('scripts')
     <style>
         .card {
@@ -41,15 +44,19 @@
             <div class="card mt-2 shadow-sm">
                 <div class="position-relative">
                     @if ($item->is_new)
-                    <span class="badge bg-danger position-absolute mt-2">New</span>
+                    <span class="badge bg-info position-absolute mt-2">New</span>
                     @endif
                     <img src="{{ filter_var($item->img_thumbnail, FILTER_VALIDATE_URL) ? $item->img_thumbnail : Storage::url($item->img_thumbnail) }}"
                         class="card-img-top" alt="{{ $item->img_thumbnail }}">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ Str::limit($item->name, 50, '...') }}</h5>
-                    <p class="card-text">Giá bán thường: {{ $item->price_regular }}</p>
-                    <p class="card-text">Giá bán sale: <strong>{{ $item->price_sale }}</strong></p>
+                    @if ($item->price_sale)
+                                    <s class="text-secondary">{{ number_format($item->price_regular) }}đ</s> <strong
+                                        class="text-danger">{{ number_format($item->price_sale) }}đ</strong>
+                                     @else
+                                    <strong class="text-danger">{{ number_format($item->price_regular) }}đ</strong></p>
+                                    @endif
                     <div>
                         <a href="{{ route('product.detail', $item->slug) }}" class="btn btn-primary btn-sm">Chi
                             tiết</a>

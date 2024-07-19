@@ -3,12 +3,12 @@
     Danh sách sản phẩm
 @endsection
 @section('content')
-    <a class="btn btn-success" href="{{ route('admin.products.create') }}">Thêm mới</a>
+    <a class="btn btn-success" href="{{ route('admin.products.create') }}">Thêm mới</a><br>
     @if (session('error'))
-        <span class="text-danger">{{ session('error') }}</span>
+        <div  class="alert alert-danger" role="alert">{{ session('error') }}</div>
     @endif
     @if (session('success'))
-        <span class="text-success">{{ session('success') }}</span>
+        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
     @endif
     <table class="table">
         <thead>
@@ -40,8 +40,8 @@
                 </td>
                 <td>{{ $item->name }}</td>
                <td>{{ $item->category->name }}</td>
-                <td>{{ $item->price_regular }}</td>
-                <td>{{ $item->price_sale }}</td>
+                <td>{{ number_format($item->price_regular) }}đ</td>
+                <td>{{ number_format($item->price_sale) }}đ</td>
                 <td>{!! $item->is_active ? '<span class="badge bg-primary">Yes</span>' :
                 "<span class='badge bg-danger'>No</span>"
                  !!}</td>

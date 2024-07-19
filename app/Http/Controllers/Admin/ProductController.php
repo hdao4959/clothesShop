@@ -271,7 +271,7 @@ class ProductController extends Controller
             $product->tags()->sync($dataTags);
             DB::commit();
 
-            return redirect()->route('admin.products.index');
+            return redirect()->route('admin.products.index')->with('success', "Chỉnh sửa sản phẩm thành công");
         } catch (\Exception $e) {
             DB::rollBack();
 

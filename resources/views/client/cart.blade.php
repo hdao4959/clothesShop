@@ -1,6 +1,8 @@
 @extends('client.layout.layout-client')
 
-
+@section('title')
+    Giỏ hàng
+@endsection
 @section('content')
 <h1 class="mb-4">Giỏ hàng</h1>
 <div>
