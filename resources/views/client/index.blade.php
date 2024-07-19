@@ -16,11 +16,6 @@
             margin-bottom: 0.5rem;
         }
 
-        .card-text {
-            color: #555;
-            font-size: 0.9rem;
-        }
-
         .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
@@ -36,6 +31,11 @@
     <div>
         <h1 class="my-3">Sản phẩm mới</h1>
         <div class="row">
+            @php
+                function formatPrice($price){
+                    return str_replace(",", ".", number_format($price));
+                }
+            @endphp
             @foreach ($products as $item)
                 <div class="col-md-3">
                     <div class="card mt-2 shadow-sm">
@@ -47,9 +47,8 @@
                                 class="card-img-top" alt="{{ $item->name }}">
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{ $item->name }}</h5>
-                            <p class="card-text">Giá bán thường: {{ $item->price_regular }}</p>
-                            <p class="card-text">Giá bán sale: <strong>{{ $item->price_sale }}</strong></p>
+                            <h1 class="card-title">{{ $item->name }}</h1>
+                            <p class="card-text">Giá: <s class="text-secondary">{{ formatPrice($item->price_regular) }}đ</s> <strong class="text-danger">{{ formatPrice($item->price_sale) }}đ</strong></p>
                             <div>
                                 <a href="{{ route('product.detail', $item->slug) }}" class="btn btn-primary btn-sm">Chi
                                     tiết</a>

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('admin')->as('admin.')
-// ->middleware('isAdmin')
+->middleware('isAdmin')
 ->group(function () {
         Route::get('/', function () {
             return view('admin.home');

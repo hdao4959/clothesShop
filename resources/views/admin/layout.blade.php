@@ -16,6 +16,23 @@
             {{-- <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"> --}}
             Bootstrap
           </a>
+          <div class="nav-item dropdown">
+            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                {{ Auth::user()->name }}
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
+        </div>
         </div>
       </nav>
     <div class="content">
@@ -39,6 +56,7 @@
                     {{-- <li class="nav-item">
                       <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                     </li> --}}
+                    
                   </ul>
             </div>
             <div class="right" style="width:calc(100% - 200px)">
