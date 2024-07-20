@@ -5,8 +5,8 @@
 @section('content')
     <h1 class="text-center">Đơn hàng của bạn</h1>
     @if (session('success'))
-        <span class="text-success">{{ session('success') }}</span>
-    @endif
+            <div  class="alert alert-success" role="alert">{{ session('success') }}</div>
+        @endif
     <div>
         
         @if ($orders)

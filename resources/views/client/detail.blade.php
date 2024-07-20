@@ -29,7 +29,7 @@
             </div>
             <span>SKU: <b>{{ $product->sku }}</b></span>
             <div>
-                <form action="{{ route('addCart') }}" method="post">
+                <form action="{{ route('handleCart') }}" method="post">
                     @csrf
                     <input type="hidden" value="{{ $product->id }}" name="product_id">
                     <div class="d-flex mt-2 mb-2" style="width:100px">
@@ -50,8 +50,8 @@
 
 
                     <div>
-                        {{-- <button type="" class="btn btn-danger">Mua ngay</button> --}}
-                        <button type="submit" class="btn btn-warning">Thêm vào giỏ hàng</button>
+                        <button type="submit" name="action" value="buy_now" class="btn btn-danger">Mua ngay</button>
+                        <button type="submit" name="action" value="add_to_cart" class="btn btn-warning">Thêm vào giỏ hàng</button>
                     </div>
                 </form>
 

@@ -12,8 +12,8 @@
         $row_number = 0;
     @endphp
     <div class="table-responsive">
-    @if (session('success'))
-    <span class="text-green">{{ session('success') }}</span>
+        @if (session('success'))
+        <div  class="alert alert-success" role="alert">{{ session('success') }}</div>
     @endif
         <table class="table table-hover ">
             <thead class="thead-dark">

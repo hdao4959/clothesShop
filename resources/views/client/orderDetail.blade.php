@@ -25,7 +25,7 @@
     <!-- Danh sách sản phẩm -->
     <div class="card">
         @if (session('success'))
-            <span class="text-success">{{ session('success') }}</span>
+            <div  class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
         <div class="card-header bg-secondary text-white">
             <h4 class="mb-0 text-center">Sản phẩm</h4>
@@ -71,10 +71,10 @@
             <div class="mt-3">
                 <h3>Tổng tiền thanh toán: <strong class="text-danger">{{ number_format($totalPrice) }}đ</strong></h3>
             </div>
-            <div class="mt-3">
+            <div class="mt-3 d-flex justify-content-">
                 <a href="{{ route('client.orders') }}" class="btn btn-secondary">Quay lại</a>
                 @if ($orders->status_order == "Chờ xác nhận")
-                    <form action="{{ route('client.orderCanceled', $orders->id) }}" method="post">
+                    <form style="margin-left:5px" action="{{ route('client.orderCanceled', $orders->id) }}" method="post">
                         @csrf
                         <button type="submit" class="btn btn-danger">Huỷ đơn</button>
                     </form>

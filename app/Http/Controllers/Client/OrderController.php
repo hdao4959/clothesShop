@@ -12,25 +12,18 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function addOrder(Request $request)
+    public function handleFormClient(Request $request)
     {
-        $cart = session('cart');
-
-        // Dữ liệu của người dùng
-        // Người đã đăng nhập
-        if(Auth::check()){
+        if (Auth::check()) {
             $dataUser = [
-                
+
                 'user_id' => Auth::user()->id,
                 'name' => Auth::user()->name,
                 'address' => $request->address,
                 'phone_number' => $request->phone_number,
                 'email' => Auth::user()->email,
             ];
-        }else{
+        } else {
             // Người chưa đăng nhập
             $dataUser = [
                 'name' => $request->guest_name,
@@ -39,7 +32,55 @@ class OrderController extends Controller
                 'email' => $request->guest_email,
             ];
         }
-        // dd($dataUser);
+        return $dataUser;
+    }
+
+    public function addBuyNow(Request $request)
+    {
+        $dataUser = $this->handleFormClient($request);
+        $dataItem = [
+            'product_name' => $request['product_name'],
+            'img_thumbnail' => $request['img_thumbnail'],
+            'price_regular' => $request['price_regular'],
+            'price_sale' => $request['price_sale'],
+            'quantity' => $request['quantity_item'],
+            'size_name' => $request['size_name'],
+        ];
+
+
+        try {
+            DB::beginTransaction();
+
+            if (!Auth::check()) {
+                // Nếu không đăng nhập mà mua hàng, thì tạo 1 tài khoản
+                // cho người dùng với trạng thái is_active = false;
+                $guest = User::create([
+                    'name' => $dataUser['name'],
+                    'email' => $dataUser['email'],
+                    'type' => "member",
+                    'is_active' => false,
+                    'password' => bcrypt($dataUser['email'])
+                ]);
+                $dataUser['user_id'] = $guest->id;
+                Auth::login($guest);
+            }
+            // Tạo ra mã đơn hàng
+            $dataUser['order_code'] = uniqid();
+            // Tạo mới đơn hàng
+            $order = Order::create($dataUser);
+            $dataItem['order_id'] = $order->id;
+            OrderItem::create($dataItem);
+            DB::commit();
+
+            return redirect()->route('client.orders')->with("success", " Bạn đã đặt hàng thành công");
+        } catch (\Exception $e) {
+            return "Có lỗi: " . $e->getMessage();
+        }
+    }
+    public function addOrder(Request $request)
+    {
+        $cart = session('cart');
+        $dataUser = $this->handleFormClient($request);
 
         // Dữ liệu sản phẩm mua
         $dataItem  = [];
@@ -57,7 +98,7 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
-            if(!Auth::check()){
+            if (!Auth::check()) {
                 // Nếu không đăng nhập mà mua hàng, thì tạo 1 tài khoản
                 // cho người dùng với trạng thái is_active = false;
                 $guest = User::create([
@@ -91,12 +132,11 @@ class OrderController extends Controller
         }
     }
 
-    public function orderCanceled($id){
+    public function orderCanceled($id)
+    {
         $order = Order::find($id);
         $order->status_order = Order::STATUS_ORDER_CANCELED;
         $order->save();
-        return redirect()->route('client.orderDetail',['id' => $id])->with("success", "Huỷ đơn hàng thành công");
+        return redirect()->route('client.orderDetail', ['id' => $id])->with("success", "Huỷ đơn hàng thành công");
     }
-
-
 }

@@ -6,7 +6,7 @@ Thông tin người nhận
 @section('content')
     <h1 class="mb-4 text-center">Thông tin người nhận</h1>
     <div class="">
-        <form style="width:600px;margin:0 auto" action="{{ route('add_order') }}" method="POST">
+        <form style="width:600px;margin:0 auto" action="{{ route('add_buy_now') }}" method="POST">
             @csrf
             @if (Auth::check())
                 <div class="form-group">
@@ -54,19 +54,24 @@ Thông tin người nhận
                         <th>Số lượng</th>
                         <th>Giá</th>
                     </tr>
-                
-                    @foreach ($cart as $product)
+                    
                         <tr>
-                            <td>{{ $product['id'] }}</td>
-                            <td><img src="{{ Storage::url($product['img_thumbnail']) }}" width="60" alt="">
-                            </td>
-                            <td>{{ $product['name'] }}</td>
-                            <td>{{ $product['size']['name'] }}</td>
-                            <td>{{ $product['quantity'] }}</td>
-                            <td>{{ $product['price_sale'] ?? $product['price_regular'] }}</td>
+                            <input type="hidden" name="product_name" value="{{ $dataProduct["name"] }}">
+                            <input type="hidden" name="img_thumbnail" value="{{ $dataProduct["img_thumbnail"] }}">
+                            <input type="hidden" name="size_name" value="{{ $dataProduct["size_name"] }}">
+                            <input type="hidden" name="quantity_item" value="{{ $dataProduct["quantity_item"] }}">
+                            <input type="hidden" name="price_sale" value="{{ $dataProduct["price_sale"] }}">
+                            <input type="hidden" name="price_regular" value="{{ $dataProduct["price_regular"] }}">
+
+                            <td>{{ $dataProduct['id'] }}</td>
+                            <td><img src="{{ Storage::url($dataProduct['img_thumbnail']) }}" width="60" alt=""></td>
+                            <td>{{ $dataProduct['name'] }}</td>
+                            <td>{{ $dataProduct['size_name'] }}</td>
+                            <td>{{ $dataProduct['quantity_item'] }}</td>
+                            <td>{{ $dataProduct['price_sale'] ?? $dataProduct['price_regular'] }}</td>
 
                         </tr>
-                    @endforeach
+                    
                 </table>
             </div>
             <div class="text-center">
