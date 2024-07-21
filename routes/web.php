@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\OrderCreated;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\OrderController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::middleware('isUser')->group(function(){
+Route::middleware('notAdmin')->group(function(){
     // Trang chủ
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -46,8 +47,6 @@ Route::middleware('isUser')->group(function(){
     Route::get("/orders",[HomeController::class, 'account'])->name('client.orders')->middleware('auth');
     Route::get("/orderDetail/{id}",[HomeController::class, 'orderDetail'])->name('client.orderDetail')->middleware('auth');
     Route::post("/orderCanceled/{id}",[OrderController::class, 'orderCanceled'])->name('client.orderCanceled')->middleware('auth');
-
-    
 });
 
 Auth::routes();
@@ -55,3 +54,4 @@ Auth::routes();
     Route::get("/loggin", function(){
         return view('login-register.login');
     });
+

@@ -54,11 +54,12 @@ Thông tin người nhận
                         <th>Số lượng</th>
                         <th>Giá</th>
                     </tr>
-                    
                         <tr>
+                            <input type="hidden" name="product_id" value="{{ $dataProduct["id"] }}">
                             <input type="hidden" name="product_name" value="{{ $dataProduct["name"] }}">
                             <input type="hidden" name="img_thumbnail" value="{{ $dataProduct["img_thumbnail"] }}">
                             <input type="hidden" name="size_name" value="{{ $dataProduct["size_name"] }}">
+                            <input type="hidden" name="size_id" value="{{ $dataProduct["size_id"] }}">
                             <input type="hidden" name="quantity_item" value="{{ $dataProduct["quantity_item"] }}">
                             <input type="hidden" name="price_sale" value="{{ $dataProduct["price_sale"] }}">
                             <input type="hidden" name="price_regular" value="{{ $dataProduct["price_regular"] }}">

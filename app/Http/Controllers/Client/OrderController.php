@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Events\OrderCreated;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -39,13 +40,17 @@ class OrderController extends Controller
     {
         $dataUser = $this->handleFormClient($request);
         $dataItem = [
+            'product_id' => $request['product_id'],
             'product_name' => $request['product_name'],
             'img_thumbnail' => $request['img_thumbnail'],
             'price_regular' => $request['price_regular'],
             'price_sale' => $request['price_sale'],
             'quantity' => $request['quantity_item'],
             'size_name' => $request['size_name'],
+            'size_id' => $request['size_id'],
         ];
+        
+
 
 
         try {
@@ -70,6 +75,9 @@ class OrderController extends Controller
             $order = Order::create($dataUser);
             $dataItem['order_id'] = $order->id;
             OrderItem::create($dataItem);
+
+            event(new OrderCreated([$dataItem]));
+
             DB::commit();
 
             return redirect()->route('client.orders')->with("success", " Bạn đã đặt hàng thành công");
@@ -80,21 +88,23 @@ class OrderController extends Controller
     public function addOrder(Request $request)
     {
         $cart = session('cart');
+
         $dataUser = $this->handleFormClient($request);
 
         // Dữ liệu sản phẩm mua
         $dataItem  = [];
         foreach ($cart as $item) {
             $dataItem[] = [
+                'product_id' => $item['id'],
                 'product_name' => $item['name'],
                 'img_thumbnail' => $item['img_thumbnail'],
                 'price_regular' => $item['price_regular'],
                 'price_sale' => $item['price_sale'],
                 'quantity' => $item['quantity_item'],
                 'size_name' => $item['size']['name'],
+                'size_id' => $item['size']['id'],
             ];
         }
-
         try {
             DB::beginTransaction();
 
@@ -120,6 +130,8 @@ class OrderController extends Controller
                 $item['order_id'] = $order->id;
                 OrderItem::create($item);
             }
+
+            event(new OrderCreated($dataItem));
 
             //Xoá cart khi đã hoàn thành đơn hàng
             session()->forget('cart');

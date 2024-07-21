@@ -21,7 +21,6 @@ class CartController extends Controller
 
     public function handleCart(Request $request)
     {
-
         $action = $request->input('action');
         if ($action == 'add_to_cart') {
             return $this->addCart($request);
@@ -95,6 +94,7 @@ class CartController extends Controller
 
     public function showFormOrder(Request $request)
     {
+        
         $cart = session('cart');
         return view('client.form-order', compact('cart'));
     }
@@ -115,6 +115,7 @@ class CartController extends Controller
             'size_name' => $size_name,
             'quantity_item' => $quantity_item
         ];
+        $dataProduct['size_id'] = $size_id;
         $dataProduct = array_merge($dataProduct, $sizeAndQuantity);
         return view('client.form_buy_now', compact('dataProduct'));
 

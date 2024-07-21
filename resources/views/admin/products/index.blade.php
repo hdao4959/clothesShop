@@ -6,7 +6,7 @@
     <a class="btn btn-success" href="{{ route('admin.products.create') }}">Thêm mới</a><br>
     @if (session('error'))
         <div  class="alert alert-danger" role="alert">{{ session('error') }}</div>
-    @endif
+    @endif <br>
     @if (session('success'))
         <div class="alert alert-success" role="alert">{{ session('success') }}</div>
     @endif

@@ -2,7 +2,7 @@
 @section('title')
     Trang chủ
 @endsection
-@section('scripts')
+@section('styles')
     <style>
         .card {
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -46,14 +46,15 @@
                                 class="card-img-top" alt="{{ $item->name }}">
                         </div>
                         <div class="card-body">
-                            <h1 class="card-title">{{ $item->name }}</h1>
+                            <h1 class="card-title">{{ Str::limit($item->name, 23) }}</h1>
                             <p class="card-text">Giá:
-                                 @if ($item->price_sale)
+                                @if ($item->price_sale)
                                     <s class="text-secondary">{{ number_format($item->price_regular) }}đ</s> <strong
                                         class="text-danger">{{ number_format($item->price_sale) }}đ</strong>
-                                     @else
-                                    <strong class="text-danger">{{ number_format($item->price_regular) }}đ</strong></p>
-                                    @endif
+                                @else
+                                    <strong class="text-danger">{{ number_format($item->price_regular) }}đ</strong>
+                            </p>
+            @endif
             <div>
                 <a href="{{ route('product.detail', $item->slug) }}" class="btn btn-primary btn-sm">Chi
                     tiết</a>
@@ -63,7 +64,6 @@
     </div>
     @endforeach
     </div>
-    {{ $newProducts->links() }}
     <h1 class="my-3 text-center text-danger">Hot Deal</h1>
     <div class="row">
 
@@ -76,7 +76,7 @@
                             class="card-img-top" alt="{{ $item->name }}">
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title">{{ $item->name }}</h1>
+                        <h1 class="card-title">{{ Str::limit($item->name, 23) }}</h1>
                         <p class="card-text">Giá: @if ($item->price_sale)
                                 <s class="text-secondary">{{ number_format($item->price_regular) }}đ</s> <strong
                                     class="text-danger">{{ number_format($item->price_sale) }}đ</strong></p>
@@ -93,7 +93,6 @@
     </div>
     @endforeach
     </div>
-    {{ $hotDealProducts->links() }}
 
     </div>
 @endsection

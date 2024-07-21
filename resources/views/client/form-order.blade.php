@@ -62,8 +62,8 @@ Thông tin người nhận
                             </td>
                             <td>{{ $product['name'] }}</td>
                             <td>{{ $product['size']['name'] }}</td>
-                            <td>{{ $product['quantity'] }}</td>
-                            <td>{{ $product['price_sale'] ?? $product['price_regular'] }}</td>
+                            <td>{{ $product['quantity_item'] }}</td>
+                            <td>{{ number_format($product['quantity_item'] * $product['price_sale'] ?? $product['price_regular']) }}</td>
 
                         </tr>
                     @endforeach

@@ -34,6 +34,7 @@
                     $total = 0;
                 @endphp
                 @foreach ($cart  as $key => $item)
+                
                     <tr >
                         @php
                             $total += $item['price_sale'] ?? $item['price_regular']
@@ -45,7 +46,7 @@
                         <td class="align-middle">
                             <input class="form-control" type="number" name="quantity[]" value="{{ $item['quantity_item']}}" min="1">
                         </td>
-                        <td class="align-middle">{{ number_format($item['price_sale'] ?? $item['price_regular'], 0, ',', '.') }}₫</td>
+                        <td class="align-middle">{{ number_format($item['quantity_item'] * ($item['price_sale'] ?? $item['price_regular'])) }}₫</td>
                         <td class="align-middle">
                             <form action="{{ route('cart.remove', ['id' => $key]) }}" method="POST" id="form_delete_{{ $key }}" style="display: inline;">
                                 @csrf
