@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\OrderCreate;
 use App\Events\OrderCreated;
 use App\Models\ProductVariant;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,7 +23,7 @@ class UpdateQuantity
     /**
      * Handle the event.
      */
-    public function handle(OrderCreated $event): void
+    public function handle(OrderCreate $event): void
     {
         DB::beginTransaction();
         try {

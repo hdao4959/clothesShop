@@ -4,6 +4,11 @@ Thêm mới danh mục
 @endsection
 @section('content')
 
+    @error('name')
+        <div class="alert alert-danger">
+          {{ $message }}
+        </div>
+    @enderror
     <form action="{{  route('admin.categories.store') }}" method="post">
         @csrf
         <div>

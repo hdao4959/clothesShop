@@ -6,23 +6,28 @@
     Chỉnh sửa sản phẩm
 @endsection
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            {{ $errors->first() }}
+        </div>
+    @endif
     <form action="{{ route('admin.products.update', $product) }}" method="post" enctype="multipart/form-data">
         @csrf
-        @method("PATCH")
+        @method('PATCH')
         <div class="d-flex">
             <div class="left col-md-5">
                 <input type="hidden" name="id" value="{{ $product->id }}">
                 <div class="mt-2">
                     <label for="name">Tên sản phẩm</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}">
+                    <input type="text" class="form-control" id="name" name="name"
+                        value="{{ old('name') ? old('name') : $product->name }}">
                 </div>
 
                 <div class="mt-2">
                     <label for="name">Danh mục sản phẩm</label>
                     <select class="form-control" name="category_id" id="category_id">
-                        <option value="">--Danh mục sản phẩm--</option>
                         @foreach ($categories as $cate)
-                            <option value="{{ $cate->id }}" @if ($product->category->id == $cate->id) selected @endif>
+                            <option value="{{ $cate->id }}" @if ( old('category_id') == $cate->id ?? (isset($product->category) && $product->category->id == $cate->id)) selected @endif>
                                 {{ $cate->name }}</option>
                         @endforeach
                     </select>
@@ -57,7 +62,7 @@
                                             alt="{{ Storage::url($gale->image) }}"></td>
                                 </tr>
                             @endforeach
-                         
+
                         </tbody>
                     </table>
 
@@ -67,12 +72,12 @@
                 <div class="mt-2">
                     <label for="price_regular">Giá bán</label>
                     <input type="number" class="form-control" id="price_regular" name="price_regular"
-                        value="{{ $product->price_regular }}">
+                        value="{{ old('price_regular', $product->price_regular) }}">
                 </div>
                 <div class="mt-2">
                     <label for="price_sale">Giá sale</label>
                     <input type="number" class="form-control" id="price_sale" name="price_sale"
-                        value="{{ $product->price_sale }}">
+                        value="{{ old('price_sale', $product->price_sale) }}">
                 </div>
 
                 <div class="mt-2">
@@ -96,14 +101,15 @@
                             <tr>
                                 <td>{{ $size->name }}</td>
                                 <td><input type="number" name="product_variants[{{ $size->id }}]"
-                                        value="{{ $variant->quantity ?? 0 }}" class="form-control"></td>
+                                        value="{{ old('product_variants.' . $size->id, $variant->quantity ?? 0) }}"
+                                        class="form-control"></td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div>
 
-            
+
             </div>
 
             <div class="right col-md-5 " style="margin-left:40px">
@@ -122,38 +128,38 @@
                     @foreach ($column as $key => $value)
                         <div class="form-check form-switch col-md-3">
                             <input class="form-check-input" type="checkbox" id="mySwitch" name="{{ $key }}"
-                                value="1" @checked($product[$key] != 0)>
+                                value="1" @checked($product[$key] != 0 || old($key) == 1)>
                             <label class="form-check-label" for="mySwitch">{{ $value }}</label>
                         </div>
                     @endforeach
 
                 </div>
 
-               
+
                 <div>
                     <label for="description">Mô tả</label><br>
 
-                    <textarea name="description" id="description" cols="70" rows="3" placeholder="Mô tả chi tiết sản phẩm">{{ $product->description }}</textarea>
+                    <textarea name="description" id="description" cols="70" rows="3" placeholder="Mô tả chi tiết sản phẩm">{{ old('description', $product->description) }}</textarea>
                 </div>
                 <div>
                     <label for="content">Nội dung</label><br>
-                    <textarea name="content">{{ $product->content }}</textarea>
+                    <textarea name="content">{{ old('content', $product->content )}}</textarea>
                 </div>
                 <div>
                     <label for="user_manual">Hướng dẫn sử dụng</label><br>
-                    <textarea name="user_manual" id="user_manual" cols="70" rows="5" placeholder="Nội dung">{{ $product->user_manual }}</textarea>
+                    <textarea name="user_manual" id="user_manual" cols="70" rows="5" placeholder="Nội dung">{{ old('user_manual', $product->user_manual) }}</textarea>
                 </div>
 
                 <div class="mt-2">
                     <label for="tags">Tags</label>
                     <select class="form-select" name="tags[]" multiple>
                         @foreach ($tags as $tag)
-                            <option @selected(in_array($tag->id, $product_tags)) value="{{ $tag->id }}">{{ $tag->name }}
+                            <option @selected( old('tags')? in_array($tag->id, old('tags')) : in_array($tag->id, $product_tags)) value="{{ $tag->id }}">{{ $tag->name }}
                             </option>
                         @endforeach
                     </select>
                 </div>
-                
+
 
                 <div class="mt-2">
                     <button type="submit" class="btn btn-warning">Sửa</button>

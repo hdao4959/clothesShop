@@ -6,13 +6,19 @@
     Thêm mới sản phẩm
 @endsection
 @section('content')
+
+   @if ($errors->any())
+       <div class="alert alert-danger">
+        {{ $errors->first() }}
+       </div>
+   @endif
     <form action="{{ route('admin.products.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="d-flex">
             <div class="left col-md-5">
                 <div class="mt-2">
                     <label for="name">Tên sản phẩm</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Tên sản phẩm" required>
+                    <input value="{{ old('name') }}" type="text" class="form-control" id="name" name="name" placeholder="Tên sản phẩm" >
                 </div>
 
                 <input type="text" class="form-control" id="sku" name="sku" value="{{ Str::random(8) }}" hidden>
@@ -20,17 +26,17 @@
 
 
                 <div class="mt-2">
-                    <label for="name">Danh mục sản phẩm</label>
-                    <select class="form-control" name="category_id" id="category_id" required>
+                    <label for="category_id">Danh mục sản phẩm</label>
+                    <select class="form-control" name="category_id" id="category_id" >
                         <option value="">--Danh mục sản phẩm--</option>
                         @foreach ($categories as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            <option value="{{ $item->id }}" {{ old('category_id') == $item->id ? "selected" : '' }}>{{ $item->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="mt-2">
                     <label for="img_thumbnail">Ảnh thumbnail</label>
-                    <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail" required>
+                    <input type="file" class="form-control" id="img_thumbnail" name="img_thumbnail" >
                 </div>
 
                 <div class="mt-2">
@@ -57,11 +63,11 @@
 
                 <div class="mt-2">
                     <label for="price_regular">Giá bán</label>
-                    <input type="number" class="form-control" id="price_regular" name="price_regular" required placeholder="Nhập giá bán">
+                    <input  value="{{ old('price_regular') }}" type="number" class="form-control" id="price_regular" name="price_regular"  placeholder="Nhập giá bán">
                 </div>
                 <div class="mt-2">
                     <label for="price_sale">Giá sale</label>
-                    <input type="number" class="form-control" id="price_sale" name="price_sale" placeholder="Nhập giá sale">
+                    <input value="{{ old('price_sale') }}" type="number" class="form-control" id="price_sale" name="price_sale" placeholder="Nhập giá sale">
                 </div>
 
                 <div class="mt-2">
@@ -77,7 +83,7 @@
                             @foreach ($sizes as $item)
                                 <tr>
                                     <td>{{ $item->name }}</td>
-                                    <td><input type="number" value="0" name="product_variants[{{ $item->id }}]"
+                                    <td><input type="number" value="{{ old('product_variants.' . $item->id, $product_variants[$item->id] ?? 0) }}" name="product_variants[{{ $item->id }}] "
                                             class="form-control"></td>
                                 </tr>
                             @endforeach

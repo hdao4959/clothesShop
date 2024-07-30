@@ -4,6 +4,11 @@ Chỉnh sửa danh mục
 @endsection
 @section('content')
 
+  @error('name')
+      <div class="alert alert-danger">
+        {{ $message }}
+      </div>
+  @enderror
     <form action="{{ route('admin.categories.update', $category) }}" method="post">
         @csrf
         @method('PUT')

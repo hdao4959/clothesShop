@@ -46,6 +46,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+
         $request['is_active'] ??= 0;
         $request['is_hot_deal'] ??= 0;
         $request['is_good_deal'] ??= 0;
@@ -189,7 +190,6 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        // dd($request);
         $dataProduct = $request->except('tags', 'product_variants');
         $dataTags = $request->tags;
         $dataGalleries = $request->galleries;
@@ -250,7 +250,7 @@ class ProductController extends Controller
             }
 
             foreach ($dataVariants as $key => $quantity) {
-                if ($quantity == 0) {
+                if ($quantity == 0 || $quantity == null) {
                     $product->variants()->where('product_size_id', $key)->delete();
                     continue;
                 } else {

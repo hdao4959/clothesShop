@@ -22,7 +22,13 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required'
+        ];
+    }
+
+    public function messages(){
+        return [
+            'name.required' => "Tên danh mục không được để trống!"
         ];
     }
 }
