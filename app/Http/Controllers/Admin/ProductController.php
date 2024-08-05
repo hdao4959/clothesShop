@@ -152,7 +152,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product = Product::with('variants.size')->find($product->id);
+        $product = Product::with('variants.size')->findOrFail($product->id);
         $galleries = $product->galleries()->get();
         $tags = $product->tags()->get();
         $variants = $product->variants()->get();

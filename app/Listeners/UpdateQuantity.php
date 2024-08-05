@@ -10,8 +10,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class UpdateQuantity
+class UpdateQuantity implements ShouldQueue
 {
+    use InteractsWithQueue;
     /**
      * Create the event listener.
      */
@@ -23,11 +24,11 @@ class UpdateQuantity
     /**
      * Handle the event.
      */
-    public function handle(OrderCreate $event): void
+    public function handle(OrderCreated $event): void
     {
         DB::beginTransaction();
         try {
-            foreach ($event->data as $item) {
+            foreach ($event->dataOrder as $item) {
                 $variant = ProductVariant::where([
                     ['product_id', $item['product_id']],
                     ['product_size_id', $item['size_id']]

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OrderController;
@@ -28,5 +29,10 @@ Route::prefix('admin')->as('admin.')
         Route::get('/orders', [OrderController::class, 'list'])->name('orders');
         Route::get('/orderDetail/{id}', [OrderController::class, 'orderDetail'])->name('order.detail');
         Route::post('/orderUpdate/{id}', [OrderController::class, 'orderUpdate'])->name('order.update');
+
+        Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
+        Route::get('/accounts/detail/{id}', [AccountController::class, 'show'])->name('account.show');
+        Route::patch('/accounts/update/{id}', [AccountController::class, 'update'])->name('account.update');
+        Route::post('/accounts/delete/{id}', [AccountController::class, 'destroy'])->name('account.delete');
 });
 

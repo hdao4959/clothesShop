@@ -27,6 +27,9 @@
         @if (session('success'))
             <div  class="alert alert-success" role="alert">{{ session('success') }}</div>
         @endif
+        @if (session('error'))
+            <div  class="alert alert-danger" role="alert">{{ session('error') }}</div>
+        @endif
         <div class="card-header bg-secondary text-white">
             <h4 class="mb-0 text-center">Sản phẩm</h4>
         </div>

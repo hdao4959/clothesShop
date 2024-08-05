@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Events\OrderCreated;
+use App\Events\StartShipping;
+use App\Listeners\SendMail;
+use App\Listeners\ShippingMailListener;
 use App\Listeners\UpdateQuantity;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,7 +25,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderCreated::class => [
             UpdateQuantity::class,
+            SendMail::class,
+            // ShippedSuccess::class
         ],
+        // StartShipping::class => [
+        //     ShippingMailListener::class
+        // ]
     ];
 
     /**

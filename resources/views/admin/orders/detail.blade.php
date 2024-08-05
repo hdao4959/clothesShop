@@ -78,7 +78,6 @@
                             'Đang chuẩn bị hàng',
                             'Đang vận chuyển',
                             'Giao hàng thành công',
-                            'Đã huỷ đơn',
                         ];
                     @endphp
                     <label for="status_order" class="form-label">Trạng thái đơn hàng</label>

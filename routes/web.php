@@ -1,9 +1,11 @@
 <?php
 
 use App\Events\OrderCreated;
+use App\Events\StartShipping;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\OrderController;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -55,3 +57,11 @@ Auth::routes();
         return view('login-register.login');
     });
 
+
+    // Route::get('/shipping', function(){
+    //     $dataUser = new User();
+    //     $dataUser['email'] = "haidxph41241@fpt.edu.vn";
+        
+    //     event(new StartShipping($dataUser));
+    //     return "Shipping";
+    // });

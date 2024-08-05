@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductSize;
 use App\Models\User;
@@ -60,14 +61,14 @@ class HomeController extends Controller
     }
 
     public function account(){
-        $account = User::find(Auth::user()->id);
+        $account = User::findOrFail(Auth::user()->id);
         $orders = $account->orders;
         return view('client.orders', compact('orders'));
     }
 
     public function orderDetail($id){
-        $account = User::find(Auth::user()->id);
-        $orders  = $account->orders->first();
+        $account = User::findOrFail(Auth::user()->id);
+        $orders  = Order::with('orderItems')->findOrFail($id);
         $orderItems = $orders->orderItems;
        
         return view('client.orderDetail', compact('account', 'orders', 'orderItems'));

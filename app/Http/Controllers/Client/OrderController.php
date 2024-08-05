@@ -76,7 +76,7 @@ class OrderController extends Controller
             $dataItem['order_id'] = $order->id;
             OrderItem::create($dataItem);
 
-            event(new OrderCreated([$dataItem]));
+            event(new OrderCreated($dataUser, [$dataItem]));
 
             DB::commit();
 
@@ -130,8 +130,7 @@ class OrderController extends Controller
                 $item['order_id'] = $order->id;
                 OrderItem::create($item);
             }
-
-            event(new OrderCreated($dataItem));
+            event(new OrderCreated($dataUser, $dataItem));
 
             //Xoá cart khi đã hoàn thành đơn hàng
             session()->forget('cart');
@@ -146,9 +145,13 @@ class OrderController extends Controller
 
     public function orderCanceled($id)
     {
-        $order = Order::find($id);
-        $order->status_order = Order::STATUS_ORDER_CANCELED;
-        $order->save();
-        return redirect()->route('client.orderDetail', ['id' => $id])->with("success", "Huỷ đơn hàng thành công");
+        $order = Order::findOrFail($id);
+        if($order->status_order == "Chờ xác nhận"){
+            $order->status_order = Order::STATUS_ORDER_CANCELED;
+            $order->save();
+            return redirect()->route('client.orderDetail', ['id' => $id])->with("success", "Huỷ đơn hàng thành công");
+        }else{
+            return redirect()->route('client.orderDetail', ['id' => $id])->with("error", "Bạn không thể huỷ đơn hàng này");
+        }
     }
 }

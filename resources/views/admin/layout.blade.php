@@ -15,7 +15,7 @@
         <div class="row">
             <!-- Sidebar -->
             <nav id="sidebar" class="col-md-2 d-none d-md-block bg-light sidebar">
-              <a class="navbar-brand" href="#">HairClothes</a>
+              <h2 class="">HairClothes</h2>
               <div class="position-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
@@ -29,6 +29,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.orders') }}">Đơn hàng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.accounts.index') }}">Tài khoản</a>
                         </li>
                     </ul>
                 </div>

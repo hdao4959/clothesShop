@@ -36,8 +36,8 @@
                 @foreach ($cart  as $key => $item)
                 
                     <tr >
-                        @php
-                            $total += $item['price_sale'] ?? $item['price_regular']
+                        @php 
+                            $total += ($item['price_sale'] ?? $item['price_regular']) * $item['quantity_item']
                         @endphp
                         <td class="align-middle">{{ $row_number + 1 }}</td>
                         <td class="align-middle"><img src="{{ filter_var($item['img_thumbnail'], FILTER_VALIDATE_URL) ? $item['img_thumbnail'] : Storage::url($item['img_thumbnail']) }}" width="50" alt=""></td>
